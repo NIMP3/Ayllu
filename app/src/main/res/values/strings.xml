@@ -495,4 +495,6 @@
     <string name="technical_concept_hint">Concepto técnico</string>
     <string name="technical_concept_text">Escriba una descripción de la afectación</string>
     <string name="btn_edit_text">EDITAR</string>
+    <string name="title_dialog_country">PAISES</string>
+    <string name="message_country_login">Elija su país de origen,¡por favor!</string>
 </resources>

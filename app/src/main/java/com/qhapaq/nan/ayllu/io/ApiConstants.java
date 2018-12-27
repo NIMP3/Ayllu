@@ -6,19 +6,19 @@ import java.util.HashMap;
 
 public class ApiConstants {
     //IPs Olds
-    public static final String URL_API_AYLLU = "http://192.168.1.15/api.ayllu.com/";
-    public static final String URL_IMG = "http://192.168.1.15/camara/imagenes/";
+    public static final String URL_API_AYLLU = "http://10.42.0.1/api.ayllu.com/";
+    public static final String URL_IMG = "http://10.42.0.1/camara/imagenes/";
 
-    public static final String URL_WEBSERVICE = "http://192.168.1.15/webservice/";
-    public static final String URL_CAMERA = "http://192.168.1.15/camara/";
+    public static final String URL_WEBSERVICE = "http://10.42.0.1/webservice/";
+    public static final String URL_CAMERA = "http://10.42.0.1/camara/";
 
     //IPs Paises
-    public static final String IP_ARGENTINA = "http://192.168.1.15/";
-    public static final String IP_BOLIVIA = "http://192.168.1.15/";
-    public static final String IP_CHILE = "http://192.168.1.15/";
-    public static final String IP_COLOMBIA = "http://192.168.1.15/";
-    public static final String IP_ECUADOR = "http://192.168.1.15/";
-    public static final String IP_PERU = "http://192.168.1.15/";
+    public static final String IP_ARGENTINA = "http://10.42.0.1/";
+    public static final String IP_BOLIVIA = "http://10.42.0.1/";
+    public static final String IP_CHILE = "http://10.42.0.1/";
+    public static final String IP_COLOMBIA = "http://10.42.0.1/";
+    public static final String IP_ECUADOR = "http://10.42.0.1/";
+    public static final String IP_PERU = "http://10.42.0.1/";
 
     //URLs Servicios
     public static final String API_AYLLU = "api.ayllu.com/";

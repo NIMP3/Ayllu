@@ -435,7 +435,12 @@ public class SettingsAppActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(tipo.equals("OFFLINE")) loading.show();
-                        Call<ReporteResponse> call = AylluApiAdapter.getApiService("REPORTE").getReporte(op[0], op[1], op[2], op[3]);
+
+                        //Crea la URL dinamica dependiendo del pais del usuario y el servicio a solicitar
+                        ApiConstants constants = new ApiConstants();
+                        String url = constants.buildUrl(pais,"API");
+
+                        Call<ReporteResponse> call = AylluApiAdapter.getNewApiService("REPORTE",url).getReporte(op[0], op[1], op[2], op[3]);
                         call.enqueue(new Callback<ReporteResponse>() {
                             @Override
                             public void onResponse(Call<ReporteResponse> call, Response<ReporteResponse> response) {
@@ -532,7 +537,12 @@ public class SettingsAppActivity extends AppCompatActivity implements View.OnCli
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.readTimeout(60, TimeUnit.SECONDS);
         httpClient.addInterceptor(logging);
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(ApiConstants.URL_IMG);
+
+        //Crea la URL dinamica dependiendo del pais del usuario y el servicio a solicitar
+        ApiConstants constants = new ApiConstants();
+        String url = constants.buildUrl(pais,"IMG");
+
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(url);
         Retrofit retrofit = builder.client(httpClient.build()).build();
         AylluApiService downloadService = retrofit.create(AylluApiService.class);
         Call<ResponseBody> call = downloadService.downloadImageByUrl(img);

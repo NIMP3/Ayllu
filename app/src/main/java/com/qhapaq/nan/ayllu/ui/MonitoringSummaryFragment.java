@@ -3,6 +3,7 @@ package com.qhapaq.nan.ayllu.ui;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.qhapaq.nan.ayllu.domain.imagen.ImagenDbHelper;
 import com.qhapaq.nan.ayllu.domain.Mensaje;
 import com.qhapaq.nan.ayllu.domain.task.Task;
 import com.qhapaq.nan.ayllu.domain.task.TaskDbHelper;
+import com.qhapaq.nan.ayllu.domain.usuario.UsuarioDbHelper;
 import com.qhapaq.nan.ayllu.io.ApiConstants;
 import com.qhapaq.nan.ayllu.io.AylluApiService;
 import com.qhapaq.nan.ayllu.io.PostClient;
@@ -70,6 +72,9 @@ public class MonitoringSummaryFragment extends Fragment implements View.OnClickL
 
     private ArrayList<File> files;
     float heightDp, widthDp;
+
+    UsuarioDbHelper usuarioDbHelper;
+    private String pais = "";
 
     /**
      * =============================================================================================
@@ -142,6 +147,16 @@ public class MonitoringSummaryFragment extends Fragment implements View.OnClickL
             task.setVariable(getArguments().getString("VAR_COD"));
             task.setArea(getArguments().getString("AREA"));
         } else task.setTipo("M");
+
+        usuarioDbHelper = new UsuarioDbHelper(getContext());
+
+        //------------------------------------------------------------------------------------------
+        //Obtenemos el codigo del monitor y el pais del usuario en sesión
+        Cursor cursor = usuarioDbHelper.generateQuery("SELECT * FROM ");
+        if (cursor.moveToFirst()){
+            pais = "0"+cursor.getString(7);
+        }
+        cursor.close();
     }
 
 
@@ -247,6 +262,7 @@ public class MonitoringSummaryFragment extends Fragment implements View.OnClickL
      * =============================================================================================
      * METODO: Subir las pruebas de un monitoreo al servidor
      **/
+    //TODO: Aplicar el uso de URL dinamica para subir las imagenes en el Registro y Monitoreo de Afectaciones
     public void uploadMonitoringImage(final String tip_upload) {
         //Comprobamos la conexión a internet
         if (wifiConected()) {
@@ -373,9 +389,12 @@ public class MonitoringSummaryFragment extends Fragment implements View.OnClickL
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
 
+        //Crea la URL dinamica dependiendo del pais del usuario y el servicio a solicitar
+        ApiConstants constants = new ApiConstants();
+        String url = constants.buildUrl(pais,"API");
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiConstants.URL_API_AYLLU)
+                .baseUrl(url)
                 .client(httpClient.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

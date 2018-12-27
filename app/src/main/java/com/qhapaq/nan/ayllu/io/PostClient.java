@@ -28,4 +28,5 @@ public interface PostClient {
 
     Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiConstants.URL_CAMERA)
             .addConverterFactory(GsonConverterFactory.create()).build();
+
 }

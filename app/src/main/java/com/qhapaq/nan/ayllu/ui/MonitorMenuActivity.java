@@ -249,6 +249,9 @@ public class MonitorMenuActivity extends AppCompatActivity implements View.OnCli
      * =============================================================================================
      * METODO: Subir Fotografias
      * **/
+    /*TODO: Aplicar el uso de URL dinamica para subir las imagenes en el registro y monitoreo de
+            afectaciones OFFLINE*/
+    //TODO: Quitar los Logs y el OKHttpLog
     private int uploadImages (Cursor current_cursor, final int position){
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -297,8 +300,12 @@ public class MonitorMenuActivity extends AppCompatActivity implements View.OnCli
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
 
+        //Crea la URL dinamica dependiendo del pais del usuario y el servicio a solicitar
+        ApiConstants constants = new ApiConstants();
+        String url = constants.buildUrl(pais,"API");
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiConstants.URL_API_AYLLU)
+                .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(httpClient.build())

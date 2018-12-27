@@ -494,5 +494,7 @@
 
     <string name="technical_concept_hint">Concepto técnico</string>
     <string name="technical_concept_text">Escriba una descripción de la afectación</string>
+    <string name="title_dialog_country">COUNTRIES</string>
+    <string name="message_country_login">Choose your country of origin, please!</string>
 
 </resources>

@@ -23,6 +23,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,8 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.qhapaq.nan.ayllu.ui.utilities.DialogUtility;
 import com.qhapaq.nan.ayllu.ui.utilities.ToolbarUtility;
 import com.squareup.picasso.Picasso;
+
+import org.apache.poi.util.BitFieldFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -297,65 +300,68 @@ public class MonitoringRegistrationFormFragment extends Fragment implements Vert
     }
 
     public boolean resizeImage(File file, String name_file, TextView tvState) {
-        //BitmapFactory.Options options = new BitmapFactory.Options();
-        //options.inSampleSize = 10;
-        Bitmap mBitmap = BitmapFactory.decodeFile(file.getPath());
 
-        if (mBitmap.getWidth() <= 1024) {
-            if (state) {
-                files.set(position, file);
-                fotos.set(position, name_file);
-                return false;
-            } else {
-                files.add(file);
-                fotos.add(name_file);
-                changeStateImage(tvState);
-                return true;
-            }
-        }
+        if (file.exists()) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            Bitmap mBitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
 
-        float newWidth = 1024;
-        float newHeigth;
-        //calculamos el alto ideal
-        newHeigth = (newWidth * mBitmap.getHeight()) / mBitmap.getWidth();
-
-        //Redimensionamos
-        int width = mBitmap.getWidth();
-        int height = mBitmap.getHeight();
-
-        //Obtenemos la escala
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeigth) / height;
-
-        // creamos una matrix para la manipulación
-        Matrix matrix = new Matrix();
-        // establecemos la escala para la matrix
-        matrix.postScale(scaleWidth, scaleHeight);
-        // recreate the new Bitmap
-        Bitmap bitmap = Bitmap.createBitmap(mBitmap, 0, 0, width, height, matrix, false);
-        File imageFile = new File(file.getPath());
-
-        OutputStream os;
-        try {
-            os = new FileOutputStream(imageFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
-            os.flush();
-            os.close();
-
-            if (state) {
-                files.set(position, imageFile);
-                fotos.set(position, name_file);
-                return false;
-            } else {
-                files.add(imageFile);
-                fotos.add(name_file);
-                changeStateImage(tvState);
-                return true;
+            if (mBitmap.getWidth() <= 1024) {
+                if (state) {
+                    files.set(position, file);
+                    fotos.set(position, name_file);
+                    return false;
+                } else {
+                    files.add(file);
+                    fotos.add(name_file);
+                    changeStateImage(tvState);
+                    return true;
+                }
             }
 
-        } catch (Exception e) {
-            return state;
+            float newWidth = 1024;
+            float newHeigth;
+            //calculamos el alto ideal
+            newHeigth = (newWidth * mBitmap.getHeight()) / mBitmap.getWidth();
+
+            //Redimensionamos
+            int width = mBitmap.getWidth();
+            int height = mBitmap.getHeight();
+
+            //Obtenemos la escala
+            float scaleWidth = ((float) newWidth) / width;
+            float scaleHeight = ((float) newHeigth) / height;
+
+            // creamos una matrix para la manipulación
+            Matrix matrix = new Matrix();
+            // establecemos la escala para la matrix
+            matrix.postScale(scaleWidth, scaleHeight);
+            // recreate the new Bitmap
+            Bitmap bitmap = Bitmap.createBitmap(mBitmap, 0, 0, width, height, matrix, false);
+            File imageFile = new File(file.getPath());
+
+            OutputStream os;
+            try {
+                os = new FileOutputStream(imageFile);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+                os.flush();
+                os.close();
+
+                if (state) {
+                    files.set(position, imageFile);
+                    fotos.set(position, name_file);
+                    return false;
+                } else {
+                    files.add(imageFile);
+                    fotos.add(name_file);
+                    changeStateImage(tvState);
+                    return true;
+                }
+
+            } catch (Exception e) {
+                return state;
+            }
         }
+        else return false;
     }
 
     /**
