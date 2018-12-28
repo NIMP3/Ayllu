@@ -39,6 +39,7 @@ import com.qhapaq.nan.ayllu.domain.usuario.UsuarioDbHelper;
 import com.qhapaq.nan.ayllu.io.ApiConstants;
 import com.qhapaq.nan.ayllu.io.AylluApiService;
 import com.qhapaq.nan.ayllu.io.PostClient;
+import com.qhapaq.nan.ayllu.io.PostClientAdapter;
 
 import java.io.File;
 import java.io.IOException;
@@ -259,7 +260,9 @@ public class MonitorMenuActivity extends AppCompatActivity implements View.OnCli
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.readTimeout(60, TimeUnit.SECONDS);
         httpClient.addInterceptor(logging);
-        PostClient service1 = PostClient.retrofit.create(PostClient.class);
+        ApiConstants apiConstants = new ApiConstants();
+        PostClient service1 = PostClientAdapter.getNewApiService(apiConstants.buildUrl(pais,"camara")).create(PostClient.class);
+        //PostClient service1 = PostClient.retrofit.create(PostClient.class);
 
         File file;
         File imagesFolder = new File(Environment.getExternalStorageDirectory(), "Ayllu");

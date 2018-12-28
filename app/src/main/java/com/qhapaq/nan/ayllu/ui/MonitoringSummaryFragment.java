@@ -31,6 +31,7 @@ import com.qhapaq.nan.ayllu.domain.usuario.UsuarioDbHelper;
 import com.qhapaq.nan.ayllu.io.ApiConstants;
 import com.qhapaq.nan.ayllu.io.AylluApiService;
 import com.qhapaq.nan.ayllu.io.PostClient;
+import com.qhapaq.nan.ayllu.io.PostClientAdapter;
 import com.qhapaq.nan.ayllu.ui.utilities.ToolbarUtility;
 
 import java.io.File;
@@ -268,8 +269,11 @@ public class MonitoringSummaryFragment extends Fragment implements View.OnClickL
         if (wifiConected()) {
             //----------------------------------------------------------------------
             //Subimos la Imagen al Servidor
+            ApiConstants apiConstants = new ApiConstants();
+            //RestClient service = RestClientAdapter.getRetrofit(apiConstants.buildUrl(pais,"WEBSERVICE")).create(RestClient.class);
 
-            PostClient service1 = PostClient.retrofit.create(PostClient.class);
+            PostClient service1 = PostClientAdapter.getNewApiService(apiConstants.buildUrl(pais,"camara")).create(PostClient.class);
+            //PostClient service1 = PostClient.retrofit.create(PostClient.class);
             loading = ProgressDialog.show(getActivity(), getResources().getString(R.string.summary_process_message_upload),getResources().getString(R.string.summary_process_message),false,false);
 
             if(files.size()==2){
