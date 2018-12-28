@@ -261,7 +261,7 @@ public class MonitorMenuActivity extends AppCompatActivity implements View.OnCli
         httpClient.readTimeout(60, TimeUnit.SECONDS);
         httpClient.addInterceptor(logging);
         ApiConstants apiConstants = new ApiConstants();
-        PostClient service1 = PostClientAdapter.getNewApiService(apiConstants.buildUrl(pais,"camara")).create(PostClient.class);
+        PostClient service1 = PostClientAdapter.getNewApiService(apiConstants.buildUrl(pais,"CAMARA")).create(PostClient.class);
         //PostClient service1 = PostClient.retrofit.create(PostClient.class);
 
         File file;

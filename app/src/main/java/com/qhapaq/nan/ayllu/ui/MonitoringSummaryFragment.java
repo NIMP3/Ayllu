@@ -272,7 +272,7 @@ public class MonitoringSummaryFragment extends Fragment implements View.OnClickL
             ApiConstants apiConstants = new ApiConstants();
             //RestClient service = RestClientAdapter.getRetrofit(apiConstants.buildUrl(pais,"WEBSERVICE")).create(RestClient.class);
 
-            PostClient service1 = PostClientAdapter.getNewApiService(apiConstants.buildUrl(pais,"camara")).create(PostClient.class);
+            PostClient service1 = PostClientAdapter.getNewApiService(apiConstants.buildUrl(pais,"CAMARA")).create(PostClient.class);
             //PostClient service1 = PostClient.retrofit.create(PostClient.class);
             loading = ProgressDialog.show(getActivity(), getResources().getString(R.string.summary_process_message_upload),getResources().getString(R.string.summary_process_message),false,false);
 
